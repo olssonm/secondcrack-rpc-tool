@@ -7,5 +7,5 @@ Just put in your hooks-folder and it will be executed automatically together wit
 If you wish to ping manually or run a test of the RPC-services, run:
 
 ```
-$ php post_rpc.php
+$ php post_rpc.php -f
 ```
