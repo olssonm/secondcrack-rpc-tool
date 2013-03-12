@@ -3,14 +3,15 @@
 	// Created by Marcus Olsson (http://marcusolsson.me)
 	// To install, just place it in your hook directory, and if SecondCrack is installed correctly – it should be executed automatically.
 
-	//Setup
+	// Setup
 	class Settings {
 
-		//Leave these empty if you want to use the settings you set in config.php
+		// Leave these empty if you want to use the settings you set in config.php
+		// Also, if you wish to test via the commandline, you better add these
 		public static $blogTitle = "";
 		public static $blogUrl = "";
 
-		//Fill in all the services you wish to ping
+		// Fill in all the services you wish to ping
 		public static $myList = array(
 			'http://rpc.pingomatic.com/',
 			'http://rpc.icerocket.com:10080/',
@@ -113,8 +114,14 @@
 		}
 	}
 
-	class Rpc extends Hook {
-		public function doHook(Post $post) {
-			ping($post::$blog_title, $post::$blog_url);
+	// Check script is executed from the command line (asume test / manual ping)
+	$command_line_test_mode = isset($_SERVER['argv'][0]);
+	if ($command_line_test_mode) {
+		ping(Settings::$blogTitle, Settings::$blogUrl);
+	} else {
+		class Rpc extends Hook {
+			public function doHook(Post $post) {
+				ping($post::$blog_title, $post::$blog_url);
+			}
 		}
 	}
